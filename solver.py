@@ -14,7 +14,7 @@ class solverClass:
     columns = []
     board = boardClass(rowNum, colNum, rows, columns)
 
-    def __init__(self,printDebug):
+    def __init__(self, printDebug):
         self.DEBUG = printDebug
 
     # TODO: Get some actual logging library, maybe
