@@ -7,12 +7,14 @@
 
 from solver import solverClass
 
+
 def main():
     solver = solverClass(True)
     # Get the board data first
     solver.getBoardSizeInput()
     solver.getRowEncodings()
     solver.getColumnEncodings()
+
 
 if __name__ == "__main__":
     main()

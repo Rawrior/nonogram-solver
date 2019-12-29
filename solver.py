@@ -6,6 +6,7 @@
 
 from board import boardClass
 
+
 class solverClass:
     DEBUG = True
     rowNum = 0
@@ -14,8 +15,8 @@ class solverClass:
     columns = []
     board = boardClass(rowNum, colNum, rows, columns)
 
-    def __init__(self, printDebug):
-        self.DEBUG = printDebug
+    def __init__(self, printDebug=None):
+        self.DEBUG = printDebug if printDebug is not None else False
 
     # TODO: Get some actual logging library, maybe
     def log(self, string):

@@ -4,6 +4,7 @@ import sys
 from solver import solverClass
 from board import boardClass
 
+
 class TestConsolePrintMethods(unittest.TestCase):
     def gameDataSetup(self):
         # Test board solution:
