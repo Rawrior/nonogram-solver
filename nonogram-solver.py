@@ -14,6 +14,10 @@ def main():
     solver.getBoardSizeInput()
     solver.getRowEncodings()
     solver.getColumnEncodings()
+    # Initialize it so we actually have a board
+    solver.initializeBoard()
+
+    # solver.printBoard()
 
 
 if __name__ == "__main__":

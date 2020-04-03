@@ -30,7 +30,19 @@ class boardClass:
     def setColumns(self, columns):
         self.colEncodings = columns
 
-    # TODO: setCell
+    def getRowNumber(self, index):
+        return self.board[index]
+
+    def getcolNumber(self, index):
+        out = {}
+        for i in range(0, len(self.board)):
+            out.append(self.board[i][index])
+        return out
+
+
+    def setCell(self, row, col, value):
+        self.board[row][col] = value
+
     # TODO: setCellSequence
 
     # Prints row first
@@ -52,3 +64,16 @@ class boardClass:
         # from the left. So a row "3 2" where there is a max length 5, will
         # become "      3 2". Then we can "just" split at every 2nd char and
         # get the resulting list to print.
+
+        # Find sequence with most numbers (per row/col)
+        # Copy all the strings to local copies to mess with them.
+        # Rows: Pad whole string with spaces (2 per number less than max)
+        #       Create new list with every second string char + board row
+        # Cols: Turn to horizontal lists. Like so:
+        #       Something something...
+
+            #    1 \n
+            #   111\n
+            # 1 000\n
+            # 3 000\n
+            # 1 000\n
