@@ -72,7 +72,7 @@ def test_printGame(capsys):
                    "  1  1 0  0  1  \n")
     boardOne.printGame()
     out, err = capsys.readouterr()
-    # assert out == expectedOne
+    assert out == expectedOne
 
     boardTwo.printGame()
     out, err = capsys.readouterr()
