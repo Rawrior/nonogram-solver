@@ -5,12 +5,16 @@
 class boardClass:
     board = [[]]
     rowEncodings = []
-    colEncodings = []
+    columnEncodings = []
+    rowAmount = 0
+    columnAmount = 0
 
     def __init__(self, rowNum, colNum, rowList, colList):
-        self.board = [[0 for i in range(colNum)] for i in range(rowNum)]
+        self.board = [[0 for i in range(0, colNum)] for i in range(0, rowNum)]
         self.rowEncodings = rowList
-        self.colEncodings = colList
+        self.columnEncodings = colList
+        self.rowAmount = rowNum
+        self.columnAmount = colNum
 
     def getBoard(self):
         return self.board
@@ -25,10 +29,10 @@ class boardClass:
         self.rowEncodings = rows
 
     def getColumns(self):
-        return self.colEncodings
+        return self.columnEncodings
 
     def setColumns(self, columns):
-        self.colEncodings = columns
+        self.columnEncodings = columns
 
     def getRowNumber(self, index):
         return self.board[index]
@@ -48,15 +52,15 @@ class boardClass:
     # Prints row first
     # TODO: Prettify the output a bit ;)
     def printBoard(self):
-        for row in range(len(self.board)):
-            for col in range(len(self.board[row])):
-                print(self.board[row][col], end="")
+        for row in range(0, len(self.board)):
+            for col in range(0, len(self.board[row])):
+                print(str(self.board[row][col]) + "  ", end="")
             print()  # Print a newline when a row is done
 
     def printGame(self):
         # TODO: Like, make this function
         # It should print both the board state and the encodings
-        print(":)")
+        # print(":)")
 
         # We need to know the longest encoding of both row and column and save
         # For all rows and cols, we make a local copy to play with
@@ -69,8 +73,32 @@ class boardClass:
         # Copy all the strings to local copies to mess with them.
         # Rows: Pad whole string with spaces (2 per number less than max)
         #       Create new list with every second string char + board row
-        # Cols: Turn to horizontal lists. Like so:
-        #       Something something...
+
+        longestColumn = max(len(x) for x in self.columnEncodings)
+        longestRow = max(len(x) for x in self.rowEncodings)
+
+        # print("Longest col: " + str(longestColumn))
+        columnNumbers = []
+        for i in range(0, longestColumn):
+            for j in range(0, len(self.columnEncodings)):
+                try:
+                    appendNum = self.columnEncodings[j][i]
+                    # print("appendNum: " + str(appendNum))
+                    columnNumbers.append('{:2}'.format(str(appendNum)))
+                except:
+                    columnNumbers.append("  ")
+        # print("columnNumbers: " + str(columnNumbers))
+
+        printColumns = []
+        for i in range(0, longestColumn):
+            tempString = ""
+            for i in range(0, self.columnAmount):
+                tempString = tempString + columnNumbers.pop(0)
+            printColumns.append(tempString)
+        printColumns = printColumns[::-1]
+        # print()
+        # for i in range(0, len(printColumns)):
+        #     print(printColumns[i])
 
             #    1 \n
             #   111\n

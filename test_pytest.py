@@ -35,9 +35,9 @@ def test_log(capsys):
 
 
 def test_printBoardBlank(capsys):
-    expected = ("010\n"
-                "111\n"
-                "010\n")
+    expected = ("0  1  0  \n"
+                "1  1  1  \n"
+                "0  1  0  \n")
     board.printBoard()
     out, err = capsys.readouterr()
     assert out == expected
@@ -46,10 +46,10 @@ def test_printBoardBlank(capsys):
 # For now...
 @pytest.mark.xfail
 def test_printGameBlank(capsys):
-    expected = ("  131\n"
-                "1 000\n"
-                "3 000\n"
-                "1 000\n")
+    expected = ("  1  3  1\n"
+                "1 0  0  0\n"
+                "3 0  0  0\n"
+                "1 0  0  0\n")
     board.printGame()
     out, err = capsys.readouterr()
     assert out == expected

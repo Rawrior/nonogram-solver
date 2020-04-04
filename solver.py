@@ -31,18 +31,27 @@ class solverClass:
     def getRowEncodings(self):
         print("For each row, enter the number sequence, from left to right, "
               "seperated by spaces. Confirm with enter.")
-        for i in range(self.rowNum):
+        for i in range(0, self.rowNum):
             self.rows.append(input())
 
     def getColumnEncodings(self):
         print("\nFor each column, enter the number sequence, from top to"
               "bottom, seperated by spaces. Confirm with enter.")
-        for i in range(self.colNum):
+        for i in range(0, self.colNum):
             self.columns.append(input())
 
     def initializeBoard(self):
+        for i in range(0, len(self.rows)):
+            self.rows[i] = list(self.rows[i].split(' '))
+            self.rows[i] = [int(x) for x in self.rows[i]]
+        for i in range(0, len(self.columns)):
+            self.columns[i] = list(self.columns[i].split(' '))
+            self.columns[i] = [int(x) for x in self.columns[i]]
         self.board = boardClass(self.rowNum, self.colNum,
                                 self.rows, self.columns)
 
     def printBoard(self):
         self.board.printBoard()
+
+    def printGame(self):
+        self.board.printGame()

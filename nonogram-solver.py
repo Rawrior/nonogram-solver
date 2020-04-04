@@ -18,6 +18,7 @@ def main():
     solver.initializeBoard()
 
     # solver.printBoard()
+    solver.printGame()
 
 
 if __name__ == "__main__":
