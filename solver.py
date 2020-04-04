@@ -51,6 +51,7 @@ class solverClass:
                                 self.rows, self.columns)
 
     def printBoard(self):
+        print(self.board.getcolNumber(2))
         self.board.printBoard()
 
     def printGame(self):
