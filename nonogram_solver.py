@@ -6,10 +6,11 @@
 # Rinse and repeat, probably
 
 from solver import solverClass
+import sys
 
 
 def main():
-    solver = solverClass(True)
+    solver = solverClass()
     # Get the board data first
     solver.getBoardSizeInput()
     solver.getRowEncodings()

@@ -22,26 +22,29 @@ class boardClass:
     def setBoard(self, board):
         self.board = board
 
-    def getRows(self):
+    def getRowEncodings(self):
         return self.rowEncodings
 
-    def setRows(self, rows):
+    def setRowEncodings(self, rows):
         self.rowEncodings = rows
 
-    def getColumns(self):
+    def getColumnEncodings(self):
         return self.columnEncodings
 
-    def setColumns(self, columns):
+    def setColumnEncodings(self, columns):
         self.columnEncodings = columns
 
     def getRowNumber(self, index):
         return self.board[index]
 
-    def getcolNumber(self, index):
+    def getColNumber(self, index):
         return [self.board[i][index] for i in range(0, len(self.board))]
 
     def setCell(self, row, col, value):
         self.board[row][col] = value
+
+    def getCell(self, row, col):
+        return self.board[row][col]
 
     # TODO: setCellSequence
 
@@ -90,10 +93,12 @@ class boardClass:
                     appendNum = self.columnEncodings[j][i]
                     # print("appendNum: " + str(appendNum))
                     columnNumbers.append('{:3}'.format(str(appendNum)))
-                except:
+                except IndexError:
                     columnNumbers.append("   ")
         # print("columnNumbers: " + str(columnNumbers))
 
+        # 3 for the space needed for a number (double-digit and 1 space)
+        # 1 for the spacing between the row numbers and the actual board
         colSpacing = longestRow * 3 + 1
         printColumns = []
         for i in range(0, longestColumn):

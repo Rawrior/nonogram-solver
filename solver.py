@@ -15,13 +15,14 @@ class solverClass:
     columns = []
     board = None
 
-    def __init__(self, printDebug=None):
-        self.DEBUG = printDebug if printDebug is not None else False
+    def __init__(self):  # , printDebug=None):
+        # self.DEBUG = printDebug if printDebug is not None else False
+        pass
 
     # TODO: Get some actual logging library, maybe
-    def log(self, string):
-        if (self.DEBUG):
-            print(string)
+    # def log(self, string):
+    #     if (self.DEBUG):
+    #         print(string)
 
     def getBoardSizeInput(self):
         self.rowNum = int(input("Enter the number of rows in the puzzle: "))
@@ -51,7 +52,6 @@ class solverClass:
                                 self.rows, self.columns)
 
     def printBoard(self):
-        print(self.board.getcolNumber(2))
         self.board.printBoard()
 
     def printGame(self):
