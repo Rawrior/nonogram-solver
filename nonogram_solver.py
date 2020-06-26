@@ -3,6 +3,7 @@
 # 2. Fill out unambiguous sequences (end caps and such)
 # 3. Remove spaces where a sequence will not be able to fit.
 # 4. Fill spaces that are certain (where sequences will 100% have overlap)
+# 5. Mark spaces that can never possibly be reached with the encodings
 # Rinse and repeat, probably
 
 from solver import solverClass

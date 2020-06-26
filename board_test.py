@@ -9,7 +9,7 @@ def setUpGame():
     global boardOne
     global boardTwo
     global capture
-    # Test boardOne setup:
+    # Test boardOne initial setup:
     # [ ][X][ ]
     # [ ][X][X]
     # [ ][ ][ ]
@@ -20,7 +20,8 @@ def setUpGame():
     boardOne.setCell(1, 1, 1)
     boardOne.setCell(1, 2, 1)
 
-    # Test boardTwo setup:
+
+    # Test boardTwo initial setup:
     # [X][ ][X]
     # [ ][ ][ ]
     # [ ][ ][X]
@@ -50,33 +51,33 @@ def test_getColumnEncodings():
 
 
 @pytest.mark.parametrize(
-    "row, expected1, expected2",
+    "row, expectedOne, expectedTwo",
     [
         (0, [0, 1, 0], [1, 0, 1]),
         (1, [0, 1, 1], [0, 0, 0]),
         (2, [0, 0, 0], [0, 0, 1])
     ]
 )
-def test_getRowNumber(row, expected1, expected2):
-    assert boardOne.getRowNumber(row) == expected1
-    assert boardTwo.getRowNumber(row) == expected2
+def test_getRowNumber(row, expectedOne, expectedTwo):
+    assert boardOne.getRowNumber(row) == expectedOne
+    assert boardTwo.getRowNumber(row) == expectedTwo
 
 
 @pytest.mark.parametrize(
-    "column, expected1, expected2",
+    "column, expectedOne, expectedTwo",
     [
         (2, [0, 1, 0], [1, 0, 1]),
         (1, [1, 1, 0], [0, 0, 0]),
         (0, [0, 0, 0], [1, 0, 0])
     ]
 )
-def test_getColNumber(column, expected1, expected2):
-    assert boardOne.getColNumber(column) == expected1
-    assert boardTwo.getColNumber(column) == expected2
+def test_getColNumber(column, expectedOne, expectedTwo):
+    assert boardOne.getColNumber(column) == expectedOne
+    assert boardTwo.getColNumber(column) == expectedTwo
 
 
 @pytest.mark.parametrize(
-    "row, column, expected1, expected2",
+    "row, column, expectedOne, expectedTwo",
     [
         (0, 0, 0, 1),
         (0, 1, 1, 0),
@@ -89,9 +90,9 @@ def test_getColNumber(column, expected1, expected2):
         (2, 2, 0, 1)
     ]
 )
-def test_getCell(row, column, expected1, expected2):
-    assert boardOne.getCell(row, column) == expected1
-    assert boardTwo.getCell(row, column) == expected2
+def test_getCell(row, column, expectedOne, expectedTwo):
+    assert boardOne.getCell(row, column) == expectedOne
+    assert boardTwo.getCell(row, column) == expectedTwo
 
 
 @pytest.mark.parametrize(
@@ -113,6 +114,51 @@ def test_setCell(row, column, value1, value2):
     assert boardOne.getCell(row, column) == value1
     boardTwo.setCell(row, column, value2)
     assert boardTwo.getCell(row, column) == value2
+
+
+    # Test boardOne initial setup:
+    # [ ][X][ ]
+    # [ ][X][X]
+    # [ ][ ][ ]
+    # Test boardTwo initial setup:
+    # [X][ ][X]
+    # [ ][ ][ ]
+    # [ ][ ][X]
+
+@pytest.mark.parametrize(
+    "coordOne, coordTwo, valueOne, valueTwo",
+    [
+        ([0, 0], [0, 2], 1, 0),
+        ([1, 0], [1, 2], 1, 0),
+        ([2, 0], [2, 2], 1, 0),
+        ([1, 0], [1, 2], 1, 0),
+        ([2, 0], [2, 0], 1, 0),
+        ([2, 0], [2, 0], 1, 0),
+        ([1, 0], [2, 2], 1, 0),
+        ([0, 1], [2, 2], 1, 0),
+        ([0, 0], [2, 2], 1, 0),
+        ([2, 2], [0, 0], 1, 0)
+    ]
+)
+def test_setCellSequence(coordOne, coordTwo, valueOne, valueTwo):
+    boardOne.setCellSequence(coordOne, coordTwo, valueOne)
+    boardTwo.setCellSequence(coordOne, coordTwo, valueOne)
+    assert assertCells(boardOne, coordOne, coordTwo, valueOne)
+    assert assertCells(boardTwo, coordOne, coordTwo, valueOne)
+
+    boardOne.setCellSequence(coordOne, coordTwo, valueTwo)
+    boardTwo.setCellSequence(coordOne, coordTwo, valueTwo)
+    assert assertCells(boardOne, coordOne, coordTwo, valueTwo)
+    assert assertCells(boardTwo, coordOne, coordTwo, valueTwo)
+
+
+# Helping function for test_setCellSequence
+def assertCells(board, coordOne, coordTwo, expectedVal):
+    for i in range(coordOne[0], coordTwo[0]):
+        for j in range(coordOne[1], coordTwo[1]):
+            if board.getCell(i, j) is not expectedVal:
+                return False
+    return True
 
 
 def test_printBoard(capsys):

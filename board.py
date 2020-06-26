@@ -40,13 +40,17 @@ class boardClass:
     def getColNumber(self, index):
         return [self.board[i][index] for i in range(0, len(self.board))]
 
-    def setCell(self, row, col, value):
-        self.board[row][col] = value
-
     def getCell(self, row, col):
         return self.board[row][col]
 
-    # TODO: setCellSequence
+    def setCell(self, row, col, value):
+        self.board[row][col] = value
+
+    def setCellSequence(self, coordStart, coordEnd, value):
+        for i in range(coordStart[0], coordEnd[0]):
+            for j in range(coordStart[1], coordEnd[1]):
+                self.setCell(i, j, value)
+
 
     # Prints row first
     # TODO: Prettify the output a bit (use special characters for blank/filled)
