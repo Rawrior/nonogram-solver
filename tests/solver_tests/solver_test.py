@@ -1,3 +1,8 @@
+# Make imports from parent directories possible
+import sys
+sys.path.append('.')
+
+# Then, business as usual.
 import pytest
 from solver import solverClass
 

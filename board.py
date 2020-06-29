@@ -16,6 +16,15 @@ class boardClass:
         self.rowAmount = rowNum
         self.columnAmount = colNum
 
+    def __eq__(self, other):
+        if not isinstance(other, boardClass):
+            return False
+        return (
+            self.board == other.board
+            # and self.rowEncodings == other.rowEncodings
+            # and self.columnEncodings == other.columnEncodings
+        )
+
     def getBoard(self):
         return self.board
 
@@ -51,8 +60,7 @@ class boardClass:
             for j in range(coordStart[1], coordEnd[1]):
                 self.setCell(i, j, value)
 
-
-    # Prints row first
+    # Prints row-based
     # TODO: Prettify the output a bit (use special characters for blank/filled)
     def printBoard(self):
         for row in range(0, len(self.board)):
@@ -61,17 +69,9 @@ class boardClass:
             print()  # Print a newline when a row is done
 
     def printGame(self):
-        # TODO: Like, make this function
-        # It should print both the board state and the encodings
-
-        # Find sequence with most numbers (per row/col)
-        # Copy all the strings to local copies to mess with them.
-        # Rows: Pad whole string with spaces (2 per number less than max)
-        #       Create new list with every second string char + board row
-        # print(self.columnEncodings)
+        # TODO: Prettify the output a bit (use special characters for blank/filled)
         longestColumn = max(len(x) for x in self.columnEncodings)
         longestRow = max(len(x) for x in self.rowEncodings)
-        # print("Longest column: " + str(longestColumn))
 
         # GENERATE ROW PRINT
         printRows = []
@@ -86,20 +86,16 @@ class boardClass:
                 tempString = tempString + '{:3}'.format(str(self.board[i][j]))
             tempString = tempString.rjust(maxPrintRowLength)
             printRows.append(tempString)
-            # print(printRows[i])
 
         # GENERATE COLUMNS PRINT
-        # print("Longest col: " + str(longestColumn))
         columnNumbers = []
         for i in range(0, longestColumn):
             for j in range(0, len(self.columnEncodings)):
                 try:
                     appendNum = self.columnEncodings[j][i]
-                    # print("appendNum: " + str(appendNum))
                     columnNumbers.append('{:3}'.format(str(appendNum)))
                 except IndexError:
                     columnNumbers.append("   ")
-        # print("columnNumbers: " + str(columnNumbers))
 
         # 3 for the space needed for a number (double-digit and 1 space)
         # 1 for the spacing between the row numbers and the actual board
@@ -116,9 +112,3 @@ class boardClass:
             print(printColumns[i])
         for i in range(0, len(printRows)):
             print(printRows[i])
-
-            #    1 \n
-            #   111\n
-            # 1 000\n
-            # 3 000\n
-            # 1 000\n

@@ -1,14 +1,16 @@
+# Make imports from parent directories possible
+import sys
+sys.path.append('.')
+
+# Then business as usual
 import pytest
 from board import boardClass
-
-board = None
 
 
 @pytest.fixture(scope="function", autouse=True)
 def setUpGame():
     global boardOne
     global boardTwo
-    global capture
     # Test boardOne initial setup:
     # [ ][X][ ]
     # [ ][X][X]
@@ -19,7 +21,6 @@ def setUpGame():
     boardOne.setCell(0, 1, 1)
     boardOne.setCell(1, 1, 1)
     boardOne.setCell(1, 2, 1)
-
 
     # Test boardTwo initial setup:
     # [X][ ][X]
@@ -32,6 +33,21 @@ def setUpGame():
     boardTwo.setCell(0, 2, 1)
     boardTwo.setCell(2, 2, 1)
     yield
+
+
+def test_eq():
+    expectedOne = boardClass(3, 3, [[1], [3], [1]], [[1], [3], [1]])
+    expectedOne.setCell(0, 1, 1)
+    expectedOne.setCell(1, 1, 1)
+    expectedOne.setCell(1, 2, 1)
+
+    expectedTwo = boardClass(3, 3, [[1, 1], [1], [1]], [[1], [1], [1, 1]])
+    expectedTwo.setCell(0, 0, 1)
+    expectedTwo.setCell(0, 2, 1)
+    expectedTwo.setCell(2, 2, 1)
+
+    assert boardOne == expectedOne
+    assert boardTwo == expectedTwo
 
 
 def test_setColumnEncodings():
@@ -116,26 +132,19 @@ def test_setCell(row, column, value1, value2):
     assert boardTwo.getCell(row, column) == value2
 
 
-    # Test boardOne initial setup:
-    # [ ][X][ ]
-    # [ ][X][X]
-    # [ ][ ][ ]
-    # Test boardTwo initial setup:
-    # [X][ ][X]
-    # [ ][ ][ ]
-    # [ ][ ][X]
-
 @pytest.mark.parametrize(
     "coordOne, coordTwo, valueOne, valueTwo",
     [
         ([0, 0], [0, 2], 1, 0),
         ([1, 0], [1, 2], 1, 0),
         ([2, 0], [2, 2], 1, 0),
+        ([0, 0], [2, 0], 1, 0),
+        ([0, 1], [2, 1], 1, 0),
+        ([0, 2], [2, 2], 1, 0),
+        ([2, 0], [2, 0], 1, 0),
         ([1, 0], [1, 2], 1, 0),
-        ([2, 0], [2, 0], 1, 0),
-        ([2, 0], [2, 0], 1, 0),
-        ([1, 0], [2, 2], 1, 0),
-        ([0, 1], [2, 2], 1, 0),
+        ([1, 2], [1, 2], 1, 0),
+        ([2, 0], [2, 1], 1, 0),
         ([0, 0], [2, 2], 1, 0),
         ([2, 2], [0, 0], 1, 0)
     ]
@@ -156,7 +165,7 @@ def test_setCellSequence(coordOne, coordTwo, valueOne, valueTwo):
 def assertCells(board, coordOne, coordTwo, expectedVal):
     for i in range(coordOne[0], coordTwo[0]):
         for j in range(coordOne[1], coordTwo[1]):
-            if board.getCell(i, j) is not expectedVal:
+            if board.getCell(i, j) != expectedVal:
                 return False
     return True
 
