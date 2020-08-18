@@ -7,35 +7,7 @@ import pytest
 from board import boardClass
 
 
-@pytest.fixture(scope="function", autouse=True)
-def setUpGame():
-    global boardOne
-    global boardTwo
-    # Test boardOne initial setup:
-    # [ ][X][ ]
-    # [ ][X][X]
-    # [ ][ ][ ]
-    boardOneRowEncodings = [[1], [3], [1]]
-    boardOneColEncodings = [[1], [3], [1]]
-    boardOne = boardClass(3, 3, boardOneRowEncodings, boardOneColEncodings)
-    boardOne.setCell(0, 1, 1)
-    boardOne.setCell(1, 1, 1)
-    boardOne.setCell(1, 2, 1)
-
-    # Test boardTwo initial setup:
-    # [X][ ][X]
-    # [ ][ ][ ]
-    # [ ][ ][X]
-    boardTwoRowEncodings = [[1, 1], [1], [1]]
-    boardTwoColEncodings = [[1], [1], [1, 1]]
-    boardTwo = boardClass(3, 3, boardTwoRowEncodings, boardTwoColEncodings)
-    boardTwo.setCell(0, 0, 1)
-    boardTwo.setCell(0, 2, 1)
-    boardTwo.setCell(2, 2, 1)
-    yield
-
-
-def test_eq():
+def test_eq(testBoards):
     expectedOne = boardClass(3, 3, [[1], [3], [1]], [[1], [3], [1]])
     expectedOne.setCell(0, 1, 1)
     expectedOne.setCell(1, 1, 1)
@@ -46,24 +18,24 @@ def test_eq():
     expectedTwo.setCell(0, 2, 1)
     expectedTwo.setCell(2, 2, 1)
 
-    assert boardOne == expectedOne
-    assert boardTwo == expectedTwo
+    assert expectedOne == testBoards[0]
+    assert expectedTwo == testBoards[1]
 
 
-def test_setColumnEncodings():
+def test_setColumnEncodings(testBoards):
     expectedOne = [[3], [1], [3]]
     expectedTwo = [[1, 1], [1, 1], [1]]
-    boardOne.setColumnEncodings(expectedOne)
-    assert boardOne.getColumnEncodings() == expectedOne
-    boardTwo.setColumnEncodings(expectedTwo)
-    assert boardTwo.getColumnEncodings() == expectedTwo
+    testBoards[0].setColumnEncodings(expectedOne)
+    assert testBoards[0].getColumnEncodings() == expectedOne
+    testBoards[1].setColumnEncodings(expectedTwo)
+    assert testBoards[1].getColumnEncodings() == expectedTwo
 
 
-def test_getColumnEncodings():
+def test_getColumnEncodings(testBoards):
     expectedOne = [[1], [3], [1]]
     expectedTwo = [[1], [1], [1, 1]]
-    assert boardOne.getColumnEncodings() == expectedOne
-    assert boardTwo.getColumnEncodings() == expectedTwo
+    assert testBoards[0].getColumnEncodings() == expectedOne
+    assert testBoards[1].getColumnEncodings() == expectedTwo
 
 
 @pytest.mark.parametrize(
@@ -74,9 +46,9 @@ def test_getColumnEncodings():
         (2, [0, 0, 0], [0, 0, 1])
     ]
 )
-def test_getRowNumber(row, expectedOne, expectedTwo):
-    assert boardOne.getRowNumber(row) == expectedOne
-    assert boardTwo.getRowNumber(row) == expectedTwo
+def test_getRowNumber(row, expectedOne, expectedTwo, testBoards):
+    assert testBoards[0].getRowNumber(row) == expectedOne
+    assert testBoards[1].getRowNumber(row) == expectedTwo
 
 
 @pytest.mark.parametrize(
@@ -87,9 +59,9 @@ def test_getRowNumber(row, expectedOne, expectedTwo):
         (0, [0, 0, 0], [1, 0, 0])
     ]
 )
-def test_getColNumber(column, expectedOne, expectedTwo):
-    assert boardOne.getColNumber(column) == expectedOne
-    assert boardTwo.getColNumber(column) == expectedTwo
+def test_getColNumber(column, expectedOne, expectedTwo, testBoards):
+    assert testBoards[0].getColNumber(column) == expectedOne
+    assert testBoards[1].getColNumber(column) == expectedTwo
 
 
 @pytest.mark.parametrize(
@@ -106,9 +78,9 @@ def test_getColNumber(column, expectedOne, expectedTwo):
         (2, 2, 0, 1)
     ]
 )
-def test_getCell(row, column, expectedOne, expectedTwo):
-    assert boardOne.getCell(row, column) == expectedOne
-    assert boardTwo.getCell(row, column) == expectedTwo
+def test_getCell(row, column, expectedOne, expectedTwo, testBoards):
+    assert testBoards[0].getCell(row, column) == expectedOne
+    assert testBoards[1].getCell(row, column) == expectedTwo
 
 
 @pytest.mark.parametrize(
@@ -125,11 +97,11 @@ def test_getCell(row, column, expectedOne, expectedTwo):
         (2, 2, 1, 0)
     ]
 )
-def test_setCell(row, column, value1, value2):
-    boardOne.setCell(row, column, value1)
-    assert boardOne.getCell(row, column) == value1
-    boardTwo.setCell(row, column, value2)
-    assert boardTwo.getCell(row, column) == value2
+def test_setCell(row, column, value1, value2, testBoards):
+    testBoards[0].setCell(row, column, value1)
+    assert testBoards[0].getCell(row, column) == value1
+    testBoards[1].setCell(row, column, value2)
+    assert testBoards[1].getCell(row, column) == value2
 
 
 @pytest.mark.parametrize(
@@ -149,16 +121,16 @@ def test_setCell(row, column, value1, value2):
         ([2, 2], [0, 0], 1, 0)
     ]
 )
-def test_setCellSequence(coordOne, coordTwo, valueOne, valueTwo):
-    boardOne.setCellSequence(coordOne, coordTwo, valueOne)
-    boardTwo.setCellSequence(coordOne, coordTwo, valueOne)
-    assert assertCells(boardOne, coordOne, coordTwo, valueOne)
-    assert assertCells(boardTwo, coordOne, coordTwo, valueOne)
+def test_setCellSequence(coordOne, coordTwo, valueOne, valueTwo, testBoards):
+    testBoards[0].setCellSequence(coordOne, coordTwo, valueOne)
+    testBoards[1].setCellSequence(coordOne, coordTwo, valueOne)
+    assert assertCells(testBoards[0], coordOne, coordTwo, valueOne)
+    assert assertCells(testBoards[1], coordOne, coordTwo, valueOne)
 
-    boardOne.setCellSequence(coordOne, coordTwo, valueTwo)
-    boardTwo.setCellSequence(coordOne, coordTwo, valueTwo)
-    assert assertCells(boardOne, coordOne, coordTwo, valueTwo)
-    assert assertCells(boardTwo, coordOne, coordTwo, valueTwo)
+    testBoards[0].setCellSequence(coordOne, coordTwo, valueTwo)
+    testBoards[1].setCellSequence(coordOne, coordTwo, valueTwo)
+    assert assertCells(testBoards[0], coordOne, coordTwo, valueTwo)
+    assert assertCells(testBoards[1], coordOne, coordTwo, valueTwo)
 
 
 # Helping function for test_setCellSequence
@@ -170,23 +142,23 @@ def assertCells(board, coordOne, coordTwo, expectedVal):
     return True
 
 
-def test_printBoard(capsys):
+def test_printBoard(capsys, testBoards):
     expectedOne = ("0  1  0  \n"
                    "0  1  1  \n"
                    "0  0  0  \n")
     expectedTwo = ("1  0  1  \n"
                    "0  0  0  \n"
                    "0  0  1  \n")
-    boardOne.printBoard()
+    testBoards[0].printBoard()
     out, err = capsys.readouterr()
     assert out == expectedOne
 
-    boardTwo.printBoard()
+    testBoards[1].printBoard()
     out, err = capsys.readouterr()
     assert out == expectedTwo
 
 
-def test_printGame(capsys):
+def test_printGame(capsys, testBoards):
     expectedOne = ("    1  3  1  \n"
                    "  1 0  1  0  \n"
                    "  3 0  1  1  \n"
@@ -196,10 +168,10 @@ def test_printGame(capsys):
                    "  1  1 1  0  1  \n"
                    "     1 0  0  0  \n"
                    "     1 0  0  1  \n")
-    boardOne.printGame()
+    testBoards[0].printGame()
     out, err = capsys.readouterr()
     assert out == expectedOne
 
-    boardTwo.printGame()
+    testBoards[1].printGame()
     out, err = capsys.readouterr()
     assert out == expectedTwo

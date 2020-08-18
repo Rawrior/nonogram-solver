@@ -69,7 +69,8 @@ class boardClass:
             print()  # Print a newline when a row is done
 
     def printGame(self):
-        # TODO: Prettify the output a bit (use special characters for blank/filled)
+        # TODO: Prettify the output a bit
+        # (use special characters for blank/filled)
         longestColumn = max(len(x) for x in self.columnEncodings)
         longestRow = max(len(x) for x in self.rowEncodings)
 
