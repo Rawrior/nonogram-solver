@@ -20,26 +20,45 @@ class solverClass:
         pass
 
     # TODO: Get some actual logging library, maybe
-    # def log(self, string):
-    #     if (self.DEBUG):
-    #         print(string)
+    def log(self, string):
+        if (self.DEBUG):
+            print(string)
 
     def getBoardSizeInput(self):
-        self.rowNum = int(input("Enter the number of rows in the puzzle: "))
-        self.colNum = int(input("Ener the number of colums in the puzzle: "))
-        self.log("Rows: " + str(self.rowNum) + "\nCols: " + str(self.colNum))
+        try:
+            self.rowNum = int(input("Enter the number of rows in the puzzle: "))
+            self.colNum = int(input("Ener the number of colums in the puzzle: "))
+            self.log("Rows: " + str(self.rowNum) + "\nCols: " + str(self.colNum))
+        except ValueError:
+            quit("ERROR: Row or column amount must be an integer.")
+        if self.rowNum < 1 or self.colNum < 1:
+            quit("ERROR: Number of rows or columns cannot be below 1.")
 
     def getRowEncodings(self):
         print("For each row, enter the number sequence, from left to right, "
               "seperated by spaces. Confirm with enter.")
         for i in range(0, self.rowNum):
             self.rows.append(input())
+            # Let's make sure the encoding will fit...
+            tempNumbers = list(map(int, self.rows[i].split(" "))) # Split up the numbers
+            tempLength = len(tempNumbers) - 1  + sum(tempNumbers) # Count the amount of spaces, then add the sum of the numbers
+            if tempLength > self.colNum:
+                quit(f"ERROR: That encoding will not fit on the board. It takes up {tempLength} spaces, but there are only {self.colNum} available")
+            else:
+                print("Accepted.")
 
     def getColumnEncodings(self):
-        print("\nFor each column, enter the number sequence, from top to"
+        print("\nFor each column, enter the number sequence, from top to "
               "bottom, seperated by spaces. Confirm with enter.")
         for i in range(0, self.colNum):
             self.columns.append(input())
+            # Let's make sure the encoding will fit...
+            tempNumbers = list(map(int, self.columns[i].split(" "))) # Split up the numbers
+            tempLength = len(tempNumbers) - 1  + sum(tempNumbers) # Count the amount of spaces, then add the sum of the numbers
+            if tempLength > self.rowNum:
+                quit(f"ERROR: That encoding will not fit on the board. It takes up {tempLength} spaces, but there are only {self.rowNum} available")
+            else:
+                print("Accepted.")
 
     def initializeBoard(self):
         for i in range(0, len(self.rows)):
