@@ -13,14 +13,14 @@ import sys
 def main():
     solver = solverClass()
     # Get the board data first
-    solver.getBoardSizeInput()
-    solver.getRowEncodings()
-    solver.getColumnEncodings()
+    solver.get_board_size_input()
+    solver.get_row_encodings()
+    solver.set_column_encodings()
     # Initialize it so we actually have a board
-    solver.initializeBoard()
+    solver.initialize_board()
 
-    # solver.printBoard()
-    solver.printGame()
+    # solver.print_board()
+    solver.print_game()
 
 
 if __name__ == "__main__":

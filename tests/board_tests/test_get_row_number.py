@@ -9,6 +9,6 @@ import pytest
         (2, [0, 0, 0], [0, 0, 1])
     ]
 )
-def test_getRowNumber_correct(row, expectedOne, expectedTwo, testBoards):
-    assert testBoards[0].getRowNumber(row) == expectedOne
-    assert testBoards[1].getRowNumber(row) == expectedTwo
+def test_get_row_number_correct(row, expectedOne, expectedTwo, testBoards):
+    assert testBoards[0].get_row_number(row) == expectedOne
+    assert testBoards[1].get_row_number(row) == expectedTwo

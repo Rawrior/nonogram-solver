@@ -18,9 +18,9 @@ def testBoards():
     boardOneRowEncodings = [[1], [3], [1]]
     boardOneColEncodings = [[1], [3], [1]]
     boardOne = boardClass(3, 3, boardOneRowEncodings, boardOneColEncodings)
-    boardOne.setCell(0, 1, 1)
-    boardOne.setCell(1, 1, 1)
-    boardOne.setCell(1, 2, 1)
+    boardOne.set_cell(0, 1, 1)
+    boardOne.set_cell(1, 1, 1)
+    boardOne.set_cell(1, 2, 1)
 
     # Test boardTwo initial setup:
     # [X][ ][X]
@@ -29,7 +29,7 @@ def testBoards():
     boardTwoRowEncodings = [[1, 1], [1], [1]]
     boardTwoColEncodings = [[1], [1], [1, 1]]
     boardTwo = boardClass(3, 3, boardTwoRowEncodings, boardTwoColEncodings)
-    boardTwo.setCell(0, 0, 1)
-    boardTwo.setCell(0, 2, 1)
-    boardTwo.setCell(2, 2, 1)
+    boardTwo.set_cell(0, 0, 1)
+    boardTwo.set_cell(0, 2, 1)
+    boardTwo.set_cell(2, 2, 1)
     return boardOne, boardTwo

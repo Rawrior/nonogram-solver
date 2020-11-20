@@ -25,50 +25,50 @@ class boardClass:
             # and self.columnEncodings == other.columnEncodings
         )
 
-    def getBoard(self):
+    def get_board(self):
         return self.board
 
-    def setBoard(self, board):
+    def set_board(self, board):
         self.board = board
 
-    def getRowEncodings(self):
+    def get_row_encodings(self):
         return self.rowEncodings
 
-    def setRowEncodings(self, rows):
+    def set_row_encodings(self, rows):
         self.rowEncodings = rows
 
-    def getColumnEncodings(self):
+    def get_column_encodings(self):
         return self.columnEncodings
 
-    def setColumnEncodings(self, columns):
+    def set_column_encodings(self, columns):
         self.columnEncodings = columns
 
-    def getRowNumber(self, index):
+    def get_row_number(self, index):
         return self.board[index]
 
-    def getColNumber(self, index):
+    def get_col_number(self, index):
         return [self.board[i][index] for i in range(0, len(self.board))]
 
-    def getCell(self, row, col):
+    def get_cell(self, row, col):
         return self.board[row][col]
 
-    def setCell(self, row, col, value):
+    def set_cell(self, row, col, value):
         self.board[row][col] = value
 
-    def setCellSequence(self, coordStart, coordEnd, value):
+    def set_cell_sequence(self, coordStart, coordEnd, value):
         for i in range(coordStart[0], coordEnd[0]):
             for j in range(coordStart[1], coordEnd[1]):
-                self.setCell(i, j, value)
+                self.set_cell(i, j, value)
 
     # Prints row-based
     # TODO: Prettify the output a bit (use special characters for blank/filled)
-    def printBoard(self):
+    def print_board(self):
         for row in range(0, len(self.board)):
             for col in range(0, len(self.board[row])):
                 print(str(self.board[row][col]) + "  ", end="")
             print()  # Print a newline when a row is done
 
-    def printGame(self):
+    def print_game(self):
         # TODO: Prettify the output a bit
         # (use special characters for blank/filled)
         longestColumn = max(len(x) for x in self.columnEncodings)
