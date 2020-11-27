@@ -39,3 +39,31 @@ def test_set_cell_correct(row, column, value1, value2, testBoards):
     testBoards[1].set_cell(row, column, value2)
     assert testBoards[0].get_cell(row, column) == value1
     assert testBoards[1].get_cell(row, column) == value2
+
+@pytest.mark.parametrize(
+    "row, column, value, board",
+    [
+        # 20 is very clearly outside of the board range.
+        (0, 20, 1, 0),
+        (20, 0, 1, 0),
+        (20, 20, 1, 0),
+        (0, 20, 0, 0),
+        (20, 0, 0, 0),
+        (20, 20, 0, 0),
+        (0, 20, 1, 1),
+        (20, 0, 1, 1),
+        (20, 20, 1, 1),
+        (0, 20, 0, 1),
+        (20, 0, 0, 1),
+        (20, 20, 0, 1)
+    ]
+)
+def test_set_cell_incorrect(row, column, value, board, testBoards):
+    with pytest.raises(ValueError) as error:
+        assert testBoards[board].set_cell(row, column, value)
+    if row > testBoards[board].rowAmount and column > testBoards[board].columnAmount:
+        assert str(error.value) == "Both row and column value are outside of board"
+    elif row > testBoards[board].rowAmount:
+        assert str(error.value) == "Row value is outside of board"
+    elif column > testBoards[board].columnAmount:
+        assert str(error.value) == "Column value is outside of board"

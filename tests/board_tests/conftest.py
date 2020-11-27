@@ -15,6 +15,10 @@ def testBoards():
     # [ ][X][ ]
     # [ ][X][X]
     # [ ][ ][ ]
+    # Test boardOne solution:
+    # [ ][X][ ]
+    # [X][X][X]
+    # [ ][X][ ]
     boardOneRowEncodings = [[1], [3], [1]]
     boardOneColEncodings = [[1], [3], [1]]
     boardOne = boardClass(3, 3, boardOneRowEncodings, boardOneColEncodings)
@@ -25,6 +29,10 @@ def testBoards():
     # Test boardTwo initial setup:
     # [X][ ][X]
     # [ ][ ][ ]
+    # [ ][ ][X]
+    # Test boardTwo solution:
+    # [X][ ][X]
+    # [ ][X][ ]
     # [ ][ ][X]
     boardTwoRowEncodings = [[1, 1], [1], [1]]
     boardTwoColEncodings = [[1], [1], [1, 1]]

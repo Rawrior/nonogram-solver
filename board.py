@@ -21,8 +21,8 @@ class boardClass:
             return False
         return (
             self.board == other.board
-            # and self.rowEncodings == other.rowEncodings
-            # and self.columnEncodings == other.columnEncodings
+            and self.rowEncodings == other.rowEncodings
+            and self.columnEncodings == other.columnEncodings
         )
 
     def get_board(self):
@@ -35,12 +35,17 @@ class boardClass:
         return self.rowEncodings
 
     def set_row_encodings(self, rows):
-        self.rowEncodings = rows
+        if len(rows) > self.rowAmount:
+            raise ValueError("The given row encodings have too many rows")
+        else:
+            self.rowEncodings = rows
 
     def get_column_encodings(self):
         return self.columnEncodings
 
     def set_column_encodings(self, columns):
+        if len(columns) > self.columnAmount:
+            raise ValueError("The given column encodings have too many columns")
         self.columnEncodings = columns
 
     def get_row_number(self, index):
@@ -53,7 +58,14 @@ class boardClass:
         return self.board[row][col]
 
     def set_cell(self, row, col, value):
-        self.board[row][col] = value
+        if row > self.rowAmount and col > self.columnAmount:
+            raise ValueError("Both row and column value are outside of board")
+        elif row > self.rowAmount:
+            raise ValueError("Row value is outside of board")
+        elif col > self.columnAmount:
+            raise ValueError("Column value is outside of board")
+        else:
+            self.board[row][col] = value
 
     def set_cell_sequence(self, coordStart, coordEnd, value):
         for i in range(coordStart[0], coordEnd[0]):
