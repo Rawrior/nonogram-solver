@@ -29,6 +29,8 @@ class boardClass:
         return self.board
 
     def set_board(self, board):
+        if not isinstance(board, boardClass):
+            raise ValueError("The given parameter is not a board object")
         self.board = board
 
     def get_row_encodings(self):
@@ -68,6 +70,7 @@ class boardClass:
             self.board[row][col] = value
 
     def set_cell_sequence(self, coordStart, coordEnd, value):
+        # Errors fall through and are found in set_cell
         for i in range(coordStart[0], coordEnd[0]):
             for j in range(coordStart[1], coordEnd[1]):
                 self.set_cell(i, j, value)
@@ -88,40 +91,68 @@ class boardClass:
 
         # GENERATE ROW PRINT
         printRows = []
+        # The longest line to print. Each number is given 2 spaces on each side
+        # and each column is given 2 spaces on each side.
         maxPrintRowLength = (longestRow * 3) + (self.columnAmount * 3) + 1
+        # For every row...
         for i in range(0, len(self.rowEncodings)):
             tempString = ""
+            # For each number in that row encoding...
             for j in range(0, len(self.rowEncodings[i])):
                 appendNum = self.rowEncodings[i][j]
+                # Appent the number (right-justified in 3 spaces)
+                # to the encoding string
                 tempString = tempString + str(appendNum).rjust(3)
+            # Add a space before the actual playing board
             tempString = tempString + " "
+            # For each cell in the row
             for j in range(0, len(self.board[i])):
-                tempString = tempString + '{:3}'.format(str(self.board[i][j]))
+                # Append the value of the cell, left-adjusted
+                tempString = tempString + str(self.board[i][j]).ljust(3)
+            # Right-adjust the whole thing
             tempString = tempString.rjust(maxPrintRowLength)
+            # Add the string to the rows being printed, then continue with
+            # the next row.
             printRows.append(tempString)
 
         # GENERATE COLUMNS PRINT
+
+        # First, we generate the columns to print
         columnNumbers = []
-        for i in range(0, longestColumn):
+
+        # For each index in the longest column (decreasing...)
+        # (The first and second -1's are for indexing purposes)
+        for i in range(longestColumn - 1, -1, -1):
+            # For each column encoding...
             for j in range(0, len(self.columnEncodings)):
                 try:
-                    appendNum = self.columnEncodings[j][i]
-                    columnNumbers.append('{:3}'.format(str(appendNum)))
+                    # Try to get the number on the (reversed) end and append
+                    # it to the list of numbers.
+                    appendNum = self.columnEncodings[j][::-1][i]
+                    columnNumbers.append(str(appendNum).ljust(3))
                 except IndexError:
+                    # Otherwise append a blank space
                     columnNumbers.append("   ")
 
+        # Second, print the columns
         # 3 for the space needed for a number (double-digit and 1 space)
         # 1 for the spacing between the row numbers and the actual board
         colSpacing = longestRow * 3 + 1
         printColumns = []
+        # For the length of the longest columns...
         for i in range(0, longestColumn):
             tempString = ""
+            # For each each column...
             for i in range(0, self.columnAmount):
+                # Add the number/space to print
                 tempString = tempString + columnNumbers.pop(0)
-            printColumns.append(tempString.rjust(colSpacing + len(tempString)))
-        printColumns = printColumns[::-1]
+            # Right-adjust the whole thing by the appropriate amount
+            tempString = tempString.rjust(colSpacing + len(tempString))
+            # Add to the array of columns to be printed
+            printColumns.append(tempString)
 
+        # Add the rows we figured out earlier.
+        printColumns.extend(printRows)
+        # Then print the whole thing
         for i in range(0, len(printColumns)):
             print(printColumns[i])
-        for i in range(0, len(printRows)):
-            print(printRows[i])

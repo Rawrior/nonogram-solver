@@ -42,8 +42,8 @@ class solverClass:
             # Let's make sure the encoding will fit...
             tempNumbers = list(map(int, self.rows[i].split(" ")))  # Split up the numbers
             tempLength = len(tempNumbers) - 1 + sum(tempNumbers)  # Count the amount of spaces, then add the sum of the numbers
-            if tempLength > self.colNum:
-                quit(f"ERROR: That encoding will not fit on the board. It takes up {tempLength} spaces, but there are only {self.colNum} available")
+            if len(tempNumbers) > self.colNum:
+                quit(f"ERROR: That encoding will not fit on the board. It takes up {len(tempNumbers)} spaces, but there are only {self.colNum} available")
             else:
                 print("Accepted.")
 
@@ -55,8 +55,8 @@ class solverClass:
             # Let's make sure the encoding will fit...
             tempNumbers = list(map(int, self.columns[i].split(" ")))  # Split up the numbers
             tempLength = len(tempNumbers) - 1 + sum(tempNumbers)  # Count the amount of spaces, then add the sum of the numbers
-            if tempLength > self.rowNum:
-                quit(f"ERROR: That encoding will not fit on the board. It takes up {tempLength} spaces, but there are only {self.rowNum} available")
+            if len(tempNumbers) > self.rowNum:
+                quit(f"ERROR: That encoding will not fit on the board. It takes up {len(tempNumbers)} spaces, but there are only {self.rowNum} available")
             else:
                 print("Accepted.")
 

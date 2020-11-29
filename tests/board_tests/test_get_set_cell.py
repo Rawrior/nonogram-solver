@@ -40,6 +40,7 @@ def test_set_cell_correct(row, column, value1, value2, testBoards):
     assert testBoards[0].get_cell(row, column) == value1
     assert testBoards[1].get_cell(row, column) == value2
 
+
 @pytest.mark.parametrize(
     "row, column, value, board",
     [
